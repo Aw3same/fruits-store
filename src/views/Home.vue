@@ -13,6 +13,16 @@ import HelloWorld from "@/components/HelloWorld.vue"; // @ is an alias to /src
   components: {
     HelloWorld,
   },
+  computed: {
+    products: {
+      get() {
+        return this.$store.state.products;
+      },
+    },
+  },
+  mounted() {
+    this.$store.dispatch("fetchProducts");
+  },
 })
 export default class Home extends Vue {}
 </script>

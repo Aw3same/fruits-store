@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "name": "Apples",
+    "price": 2.49
+  },
+  {
+    "id": 1,
+    "name": "Apples",
+    "price": 2.49
+  },
+  {
+    "id": 2,
+    "name": "Bananas",
+    "price": 1.99
+  },
+  {
+    "id": 3,
+    "name": "Avocados",
+    "price": 2.99
+  },
+  {
+    "id": 4,
+    "name": "Pears",
+    "price": 1.49
+  },
+  {
+    "id": 5,
+    "name": "Clementines",
+    "price": 2.29
+  },
+  {
+    "id": 6,
+    "name": "Watermelons",
+    "price": 0.99
+  },
+  {
+    "id": 7,
+    "name": "Melons",
+    "price": 1.49
+  }
+]
