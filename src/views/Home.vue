@@ -1,17 +1,23 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
+    <div>
+      <Product
+        v-for="product in products"
+        :key="product.id"
+        :product="product"
+      />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import HelloWorld from "@/components/HelloWorld.vue"; // @ is an alias to /src
+import Product from "@/components/Product.vue"; // @ is an alias to /src
 
 @Component({
   components: {
-    HelloWorld,
+    Product,
   },
   computed: {
     products: {

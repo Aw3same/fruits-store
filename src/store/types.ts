@@ -1,8 +1,12 @@
-import { Product } from "@/models/product.model";
-
+export interface Product {
+  id: number;
+  name: string;
+  image: string;
+  price: number;
+}
 export interface CartProduct {
   product: Product;
-  numItems: number;
+  amount: number;
 }
 
 export interface RootState {

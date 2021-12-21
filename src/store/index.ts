@@ -1,7 +1,6 @@
-import { Product } from "@/models/product.model";
 import Vue from "vue";
 import Vuex, { StoreOptions } from "vuex";
-import { CartProduct, RootState } from "./types";
+import { Product, CartProduct, RootState } from "./types";
 import products from "@/assets/products.json";
 
 Vue.use(Vuex);
