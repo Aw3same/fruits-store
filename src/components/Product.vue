@@ -3,7 +3,7 @@
     <h2>{{ product.name }}</h2>
     <p>{{ product.price }} € /kg</p>
 
-    <Counter @changeAmount="changeAmount($event)" />
+    <Counter :counter="amount" @changeAmount="changeAmount($event)" />
 
     <div class="btn-container">
       <button type="button" @click="addToCart(product, amount)" class="add">
@@ -13,7 +13,6 @@
   </div>
 </template>
 
-
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { Product, CartProduct } from "@/store/types";
@@ -22,7 +21,7 @@ import Counter from "@/components/Counter.vue";
 @Component({
   components: {
     Counter,
-  },
+  }  
 })
 export default class ProductComponent extends Vue {
   @Prop() private product!: Product;
@@ -39,6 +38,7 @@ export default class ProductComponent extends Vue {
     };
 
     this.$store.dispatch("addProductToCart", cartProduct);
+    this.amount = 1
   }
 }
 </script>
@@ -67,6 +67,7 @@ export default class ProductComponent extends Vue {
   font-size: 1rem;
   line-height: 1.5;
   border-radius: 0.25rem;
+  cursor: pointer;
 }
 .btn-container {
   margin: 0.5rem
