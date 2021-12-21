@@ -19,10 +19,10 @@ const store: StoreOptions<RootState> = {
     SET_Products(state, products: Product[]) {
       state.products = products;
     },
-    ADD_Product_to_cart(state, product: CartProduct) {
+    ADD_Product(state, product: CartProduct) {
       state.StoreCart.push(product);
     },
-    REMOVE_Product_from_cart(state, index) {
+    REMOVE_Product(state, index) {
       state.StoreCart.splice(index, 1);
     },
   },
@@ -32,6 +32,13 @@ const store: StoreOptions<RootState> = {
        * Example:
        * fetch("<API_URL>").then(r =>  Do stuff here);*/
       commit("SET_Products", products);
+    },
+    addProductToCart({ commit }, id) {
+      commit("ADD_Product", id);
+    },
+
+    removeItem({ commit }, index) {
+      commit("REMOVE_Product", index);
     },
   },
   modules: {},
