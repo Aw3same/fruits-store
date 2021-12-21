@@ -1,11 +1,11 @@
 <template>
   <ul class="menu">
     <li class="menu-item" v-for="link in links" :key="link.id">
-      <a v-bind:href="link.url" class="menu-link">
+      <router-link v-bind:to="link.url" class="menu-link">
         <i class="menu-icon" :class="link.icon"></i>
         <span>{{ link.text }}</span>
         <span v-if="link.text === 'Cart'"> ({{ productsInCart }})</span>
-      </a>
+      </router-link>
     </li>
   </ul>
 </template>
@@ -51,7 +51,7 @@ export default {
 :root {
   --link-text-color: #f1faee;
   --menu-background-color: #1d3557;
-  --active-background-color: #132238;
+  --active-background-color: #f3f04d;
 }
 /* ul */
 .menu {
