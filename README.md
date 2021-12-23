@@ -11,15 +11,29 @@ npm install
 npm run serve
 ```
 
-### Compiles and minifies for production
-```
-npm run build
-```
+### Project structure
 
-### Lints and fixes files
-```
-npm run lint
-```
+We have 3 pages:
+- Products.
+- About.
+- Cart.
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Reusable components:
+- Products: for all products in the app.
+- Counter: used to select the amount of fruits in the store.
+- Navbar: used to navigate thought the application.
+
+I used a store to:
+
+- Save the products, and action on them
+- Manage the Cart.
+- Store the voucher codes.
+
+## Future improvements
+
+- Improve styles of all applications.
+- Refactor the Cart component, simplifiying the way I manage the user experience.
+- Add toast notifications instead of javascript alerts.
+- Allow the user to remove items from the Cart.
+
+And many many more...
