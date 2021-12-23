@@ -30,20 +30,36 @@
       <label for="checkbox">I have a voucher code</label>
       <div v-if="voucherCodeCheckbox">
         <input v-model="voucherCode" placeholder="Code.." />
-        <button type="button" @click="applyVoucher(voucherCode)" class="add">
+        <div v-if="voucherNotValid">
+          <p>The code introduced is not valid</p>
+        </div>
+        <div v-if="voucherCodeValid">
+          <p>Valid code! Applied {{ voucher.discount }} % in {{ voucher.products.length > 0 ? voucher.products : 'all products!' }} </p>
+        </div>
+        <button
+          type="button"
+          @click="applyVoucher(voucherCode)"
+          class="apply-voucher"
+        >
           Apply
         </button>
       </div>
     </div>
     <div class="total-price">
       <h3>TOTAL {{ finalPrice }} €</h3>
+      <div>
+        <button type="button" class="apply-voucher" @click="checkout()">
+          <i class="fas fa-shopping-bag"></i>
+          Checkout
+        </button>
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { CartProduct } from "@/store/types";
+import { CartProduct, Voucher } from "@/store/types";
 import Counter from "@/components/Counter.vue";
 
 @Component({
@@ -56,9 +72,13 @@ export default class CartComponent extends Vue {
   totalPrice = 0;
   voucherCodeCheckbox = false;
   voucherCode = "";
+  voucherNotValid = false;
+  voucherCodeValid = false;
+  voucher: Voucher;
   finalPrice = 0;
 
   created(): void {
+    this.$store.dispatch("fetchVouchers");
     this.cartItems = this.$store.state.StoreCart;
     const sum = this.cartItems?.reduce(
       (sum, current) => sum + current.amount * current.product.price,
@@ -69,28 +89,50 @@ export default class CartComponent extends Vue {
   }
 
   applyVoucher(code: string): void {
-    let sum = this.cartItems?.reduce((sum, current) => {
-      return sum + current.amount * current.product.price;
-    }, 0);
-    switch (code) {
-      case "HAPPYBIRTHDAY":
-        sum = sum * 0.8;
-        break;
-      case "KATOO":
-        sum = sum * 0.5;
-        break;
-      case "ILIKEAPPLES":
-        console.log("entro aqui ILIKEAPPLES");
-        sum = this.cartItems?.reduce((sum, current) => {
-          if (current.product.name === "Apples") {
-            return sum + current.amount * (current.product.price * 0.4);
-          } else {
-            return sum + current.amount * current.product.price;
-          }
-        }, 0);
-        break;
+    this.voucherNotValid = false;
+    this.voucherCodeValid = false;
+    const voucher = this.$store.state.vouchers.find(
+      (voucher: Voucher) => voucher.code === code.toLowerCase()
+    );
+    this.voucher = voucher;
+    let total = 0;
+    /** Case 1: Voucher that affects N products */
+    if (voucher && voucher.products.length > 0) {
+      this.voucherCodeValid = true;
+      const discount = 1 - voucher.discount / 100;
+      total = this.cartItems?.reduce((sum, current) => {
+        if (voucher.products.includes(current.product.name)) {
+          return sum + current.amount * (current.product.price * discount);
+        }
+        return sum + current.amount * current.product.price;
+      }, 0);
+    } else if (voucher) {
+      /** Case 2: Voucher that affects all products */
+      this.voucherCodeValid = true;
+      const discount = 1 - voucher.discount / 100;
+      total = this.cartItems?.reduce((sum, current) => {
+        return sum + current.amount * (current.product.price * discount);
+      }, 0);
+    } else {
+      /** Case 3: voucher not valid */
+      this.voucherNotValid = true;
+      total = this.cartItems?.reduce((sum, current) => {
+        return sum + current.amount * current.product.price;
+      }, 0);
     }
-    this.finalPrice = Math.round(sum * 100) / 100;
+    this.finalPrice = Math.round(total * 100) / 100;
+  }
+
+  checkout(): void {
+    const numOrder = Math.floor(Math.random() * (1000 + 1));
+    /** Here we can change this with an API call to create an order */
+    alert(`Order Nº #${numOrder} succesfully created! Enjoy your fruits!`);
+    this.$store.dispatch("emptyCart");
+    this.cartItems = [];
+    this.totalPrice = 0;
+    this.finalPrice = 0;
+    this.voucherCode = "";
+    this.voucherCodeCheckbox = false;
   }
 }
 </script>
@@ -131,8 +173,16 @@ table tbody tr:nth-child(2n) td {
   border-block: 2px solid #44475c;
   font-weight: bold;
 }
+input {
+  font-weight: 400;
+  vertical-align: middle;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 0.25rem;
+}
 
 .apply-voucher {
+  margin-left: 5px;
   color: #fff;
   background-color: #1d3557;
   border-color: #1d3557;
@@ -147,5 +197,9 @@ table tbody tr:nth-child(2n) td {
   line-height: 1.5;
   border-radius: 0.25rem;
   cursor: pointer;
+}
+.voucher {
+  margin-top: 10px;
+  display: block;
 }
 </style>

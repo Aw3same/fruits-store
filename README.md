@@ -1,5 +1,6 @@
 # fruits-store
 
+This repo contains a tecnic test for the Katoo DEV team.
 ## Project setup
 ```
 npm install

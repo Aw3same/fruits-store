@@ -1,0 +1,17 @@
+[
+  {
+    "code": "happybirthday",
+    "discount": 20,
+    "products": []
+  },
+  {
+    "code": "katoo",
+    "discount": 50,
+    "products": []
+  },
+  {
+    "code": "ilikeapples",
+    "discount": 60,
+    "products": ["Apples"]
+  }
+]

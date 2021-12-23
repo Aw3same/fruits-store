@@ -14,14 +14,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue  } from "vue-property-decorator";
 import { Product, CartProduct } from "@/store/types";
 import Counter from "@/components/Counter.vue";
 
 @Component({
   components: {
     Counter,
-  }  
+  },
 })
 export default class ProductComponent extends Vue {
   @Prop() private product!: Product;
@@ -38,7 +38,8 @@ export default class ProductComponent extends Vue {
     };
 
     this.$store.dispatch("addProductToCart", cartProduct);
-    this.amount = 1
+    this.amount = 1;
+    alert(`${cartProduct.amount} kg of ${cartProduct.product.name} added!`);
   }
 }
 </script>
@@ -70,6 +71,6 @@ export default class ProductComponent extends Vue {
   cursor: pointer;
 }
 .btn-container {
-  margin: 0.5rem
+  margin: 0.5rem;
 }
 </style>
